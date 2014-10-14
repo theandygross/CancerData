@@ -1,13 +1,13 @@
-'''
+"""
 Created on Oct 2, 2013
 
 @author: agross
-'''
+"""
 import os as os
 import pandas as pd
 import numpy as np
 
-from Data.ProcessClinical import try_float
+from Processing.ProcessClinical import try_float
 
 
 def read_clinical_data(path, cancer):
@@ -68,6 +68,7 @@ def format_survival_data(timeline, clin):
                          keys=['survival', 'event_free_survival'],
                          axis=1)
     return timeline, survival
+
 
 def update_clinical_object(clinical, path):
     cancer = clinical.cancer

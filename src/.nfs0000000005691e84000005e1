@@ -1,0 +1,58 @@
+Validating run selection against Broad Institute website ...
+You've asked to download archives for the following tasks
+
+     clinical
+
+run against the disease cohorts
+
+      PAAD
+
+from the stddata__2014_07_15 Firehose run. 
+Attempting to retrieve data for Broad GDAC run stddata__2014_07_15 ...
+--2014-10-13 16:08:51--  http://gdac.broadinstitute.org/runs/stddata__2014_07_15/data/PAAD/
+     0K                                                      100% 27.8M=0s
+2014-10-13 16:08:51 ERROR 404: Not Found.
+--2014-10-13 16:08:51--  http://gdac.broadinstitute.org/runs/stddata__2014_07_15/data/PAAD/20140715/
+     0K                                                       94.7K=0.3s
+--2014-10-13 16:08:52--  http://gdac.broadinstitute.org/runs/stddata__2014_07_15/data/PAAD/20140715/gdac.broadinstitute.org_PAAD.Clinical_Pick_Tier1.Level_4.2014071500.0.0.tar.gz
+Saving to: ‘stddata__2014_07_15/PAAD/20140715/gdac.broadinstitute.org_PAAD.Clinical_Pick_Tier1.Level_4.2014071500.0.0.tar.gz’
+     0K                                                      100%  211K=0.2s
+--2014-10-13 16:08:52--  http://gdac.broadinstitute.org/runs/stddata__2014_07_15/data/PAAD/20140715/gdac.broadinstitute.org_PAAD.Clinical_Pick_Tier1.Level_4.2014071500.0.0.tar.gz.md5
+Saving to: ‘stddata__2014_07_15/PAAD/20140715/gdac.broadinstitute.org_PAAD.Clinical_Pick_Tier1.Level_4.2014071500.0.0.tar.gz.md5’
+     0K                                                      100% 8.74M=0s
+--2014-10-13 16:08:52--  http://gdac.broadinstitute.org/runs/stddata__2014_07_15/data/PAAD/20140715/gdac.broadinstitute.org_PAAD.Clinical_Pick_Tier1.aux.2014071500.0.0.tar.gz
+Saving to: ‘stddata__2014_07_15/PAAD/20140715/gdac.broadinstitute.org_PAAD.Clinical_Pick_Tier1.aux.2014071500.0.0.tar.gz’
+     0K                                                      100%  140M=0s
+--2014-10-13 16:08:52--  http://gdac.broadinstitute.org/runs/stddata__2014_07_15/data/PAAD/20140715/gdac.broadinstitute.org_PAAD.Clinical_Pick_Tier1.aux.2014071500.0.0.tar.gz.md5
+Saving to: ‘stddata__2014_07_15/PAAD/20140715/gdac.broadinstitute.org_PAAD.Clinical_Pick_Tier1.aux.2014071500.0.0.tar.gz.md5’
+     0K                                                      100% 9.34M=0s
+--2014-10-13 16:08:52--  http://gdac.broadinstitute.org/runs/stddata__2014_07_15/data/PAAD/20140715/gdac.broadinstitute.org_PAAD.Clinical_Pick_Tier1.mage-tab.2014071500.0.0.tar.gz
+Saving to: ‘stddata__2014_07_15/PAAD/20140715/gdac.broadinstitute.org_PAAD.Clinical_Pick_Tier1.mage-tab.2014071500.0.0.tar.gz’
+     0K                                                      100%  113M=0s
+--2014-10-13 16:08:52--  http://gdac.broadinstitute.org/runs/stddata__2014_07_15/data/PAAD/20140715/gdac.broadinstitute.org_PAAD.Clinical_Pick_Tier1.mage-tab.2014071500.0.0.tar.gz.md5
+Saving to: ‘stddata__2014_07_15/PAAD/20140715/gdac.broadinstitute.org_PAAD.Clinical_Pick_Tier1.mage-tab.2014071500.0.0.tar.gz.md5’
+     0K                                                      100% 9.40M=0s
+--2014-10-13 16:08:52--  http://gdac.broadinstitute.org/runs/stddata__2014_07_15/data/PAAD/20140715/gdac.broadinstitute.org_PAAD.Merge_Clinical.Level_1.2014071500.0.0.tar.gz
+Saving to: ‘stddata__2014_07_15/PAAD/20140715/gdac.broadinstitute.org_PAAD.Merge_Clinical.Level_1.2014071500.0.0.tar.gz’
+     0K ..                                                   100%  392K=0.4s
+--2014-10-13 16:08:53--  http://gdac.broadinstitute.org/runs/stddata__2014_07_15/data/PAAD/20140715/gdac.broadinstitute.org_PAAD.Merge_Clinical.Level_1.2014071500.0.0.tar.gz.md5
+Saving to: ‘stddata__2014_07_15/PAAD/20140715/gdac.broadinstitute.org_PAAD.Merge_Clinical.Level_1.2014071500.0.0.tar.gz.md5’
+     0K                                                      100% 19.5M=0s
+--2014-10-13 16:08:53--  http://gdac.broadinstitute.org/runs/stddata__2014_07_15/data/PAAD/20140715/gdac.broadinstitute.org_PAAD.Merge_Clinical.aux.2014071500.0.0.tar.gz
+Saving to: ‘stddata__2014_07_15/PAAD/20140715/gdac.broadinstitute.org_PAAD.Merge_Clinical.aux.2014071500.0.0.tar.gz’
+     0K                                                      100%  111M=0s
+--2014-10-13 16:08:53--  http://gdac.broadinstitute.org/runs/stddata__2014_07_15/data/PAAD/20140715/gdac.broadinstitute.org_PAAD.Merge_Clinical.aux.2014071500.0.0.tar.gz.md5
+Saving to: ‘stddata__2014_07_15/PAAD/20140715/gdac.broadinstitute.org_PAAD.Merge_Clinical.aux.2014071500.0.0.tar.gz.md5’
+     0K                                                      100% 6.75M=0s
+--2014-10-13 16:08:53--  http://gdac.broadinstitute.org/runs/stddata__2014_07_15/data/PAAD/20140715/gdac.broadinstitute.org_PAAD.Merge_Clinical.mage-tab.2014071500.0.0.tar.gz
+Saving to: ‘stddata__2014_07_15/PAAD/20140715/gdac.broadinstitute.org_PAAD.Merge_Clinical.mage-tab.2014071500.0.0.tar.gz’
+     0K                                                      100%  645M=0s
+--2014-10-13 16:08:53--  http://gdac.broadinstitute.org/runs/stddata__2014_07_15/data/PAAD/20140715/gdac.broadinstitute.org_PAAD.Merge_Clinical.mage-tab.2014071500.0.0.tar.gz.md5
+Saving to: ‘stddata__2014_07_15/PAAD/20140715/gdac.broadinstitute.org_PAAD.Merge_Clinical.mage-tab.2014071500.0.0.tar.gz.md5’
+     0K                                                      100% 9.07M=0s
+FINISHED --2014-10-13 16:08:54--
+Total wall clock time: 2.5s
+Downloaded: 14 files, 239K in 0.9s (261 KB/s)
+
+
+Now performing post-processing on retrieved files ...

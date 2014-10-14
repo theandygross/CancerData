@@ -1,4 +1,4 @@
-'''
+"""
 Created on Jun 23, 2013
 
 Module for loading data from processed files.
@@ -6,7 +6,7 @@ This is separate from Data.Firehose due to its dependence on upstream
 processing pipelines or other functions in the package.
 
 @author: agross
-'''
+"""
 import os as os
 import numpy as np
 import pandas as pd
@@ -14,17 +14,18 @@ import pandas as pd
 import Data.Firehose as FH
 
 from Stats.Scipy import kruskal_pandas
-from Processing.Helpers import true_index, bhCorrection
-from Processing.Helpers import frame_svd
+from Helpers.Pandas import true_index, bhCorrection
+from Helpers.LinAlg import frame_svd
+
 
 def get_beta_values(data_path, cancer, patients=None, tissue_code='All'):
-    '''
+    """
     Retrieve methylation beta-values from my pre-processed file.  
     TCGA has a lot more columns that eat up memory, so I parse out the 
     beta-values in preprocess_methylation.py.  
     This file still has all of the probes by pateints so it still eats my
     kill a computer without a lot of memory (takes ~2GB for HNSC). 
-    '''
+    """
     path = '{}/ucsd_processing/{}/methylation450/'.format(data_path, cancer)
     t = pd.read_table(path + 'beta_values.txt', skiprows=[1], index_col=[0])
     t = t.rename(columns=lambda s: s if s != t.columns[0] else 'symbol')
@@ -34,14 +35,15 @@ def get_beta_values(data_path, cancer, patients=None, tissue_code='All'):
     t = FH.fix_barcode_columns(t, patients, tissue_code)
     return t
 
+
 def read_methylation(data_path, cancer, patients=None, tissue_code='01'):
-    '''
+    """
     Reads in gene by patient methylation matrix.  
     Here genes levels are pre-computed by taking the principal component of 
     the probes in the gene (see preprocess_methylation.py for details).  
 
     tissue_code: ['01','11','All']  #if all returns MultiIndex
-    '''
+    """
     path = '{}ucsd_processing/{}/'.format(data_path, cancer)
     data_types = filter(lambda f: f[:11] == 'methylation', os.listdir(path))
     data_type = sorted([d for d in data_types 
@@ -58,8 +60,9 @@ def read_methylation(data_path, cancer, patients=None, tissue_code='01'):
         meth = meth.T.xs(tissue_code, level=1).T  # pandas bug
     return meth
 
+
 def rna_filter(cn, val, rna):
-    '''
+    """
     Filter copy number events with rna expression data.
     Here we test whether the event is associated with a subsequent
     change in expression in those patients. 
@@ -67,7 +70,7 @@ def rna_filter(cn, val, rna):
     cn: copy number matrix, should have a MultiIndex, with the gene name
         in the last level
     val: value of the copy number to test in [-2, -1, 1, 2] 
-    '''
+    """
     assert val in [-2, -1, 1, 2]
     change = pd.DataFrame({g: kruskal_pandas(vec == val, rna.ix[g[-1]])
                            for g, vec in cn.iterrows() 
@@ -76,16 +79,17 @@ def rna_filter(cn, val, rna):
     filtered = cn.ix[true_index(q_vals < .1)]
     return filtered
 
+
 def get_gistic_genes(data_path, cancer, filter_with_rna=True,
                      collapse_on_bands=True, min_patients=5):
-    '''
+    """
     Gets a matrix of events for high grade amplifications and homozygous 
     deletions. 
     We filter down this list by asserting that a copy number event corresponds
     with a resultant expression change. 
     The final matrix merges gene-level events on the same band to combine
     redundant events and reduce the test space.     
-    '''
+    """
     gistic = FH.get_gistic_gene_matrix(data_path, cancer, '01')
     deletion = gistic[(gistic == -2).sum(1) > min_patients]
     amp = gistic[(gistic == 2).sum(1) > min_patients]
@@ -108,19 +112,21 @@ def get_gistic_genes(data_path, cancer, filter_with_rna=True,
     cna_genes.index = pd.MultiIndex.from_tuples(cna_genes.index)
     return cna_genes
 
+
 def get_gistic(data_path, cancer, filter_with_rna=True,
                collapse_on_bands=True, min_patients=5):
-    '''
+    """
     Get the combined GISTIC feature matrix for testing. 
-    '''
+    """
     lesions = FH.get_gistic_lesions(cancer, data_path)
     cna_genes = get_gistic_genes(data_path, cancer, filter_with_rna,
                                  collapse_on_bands, min_patients)
     cna = cna_genes.append(lesions)
     return cna
 
+
 def build_meta_matrix(gene_sets, gene_matrix, min_size=4, set_filter=None):
-    '''
+    """
     Builds meta-gene matrix from gene-set definitions and single gene matrix.
     
     Input
@@ -132,7 +138,7 @@ def build_meta_matrix(gene_sets, gene_matrix, min_size=4, set_filter=None):
         
     Returns
         meta_matrix
-    '''
+    """
     if not isinstance(gene_sets, dict):
         gene_sets = dict(list(enumerate(gene_sets)))
     meta_matrix = pd.DataFrame({group: gene_matrix.ix[genes].sum(0) 
@@ -144,11 +150,12 @@ def build_meta_matrix(gene_sets, gene_matrix, min_size=4, set_filter=None):
     meta_matrix = meta_matrix.ix[:, keepers].T
     return meta_matrix
 
+
 def get_mutation_rates(data_path, cancer, patients=None):
-    '''
+    """
     Get mutation rate data from MutSig processing pipeline. This function
     depends on the current Firehose output of this program as of July 2013.
-    '''
+    """
     path = '{}/analyses/{}/MutSigNozzleReport2/'.format(data_path, cancer)
     path = path + cancer + '-TP.'
     try:
@@ -178,12 +185,13 @@ def get_mutation_rates(data_path, cancer, patients=None):
         rates = rates.ix[patients].dropna()
     return rates
 
+
 def get_cna_rates(data_path, cancer, patients=None):
-    '''
+    """
     Get copy-number aberration rates from GISTIC processing pipeline.  
     This function depends on the current Firehose output of this program 
     as of July 2013.
-    '''
+    """
     gistic = FH.get_gistic_gene_matrix(data_path, cancer)
     amp_gene_all = (gistic >= 1).astype(int).sum()
     amp_gene_high = (gistic == 2).astype(int).sum()
@@ -209,12 +217,13 @@ def get_cna_rates(data_path, cancer, patients=None):
         cna_df = cna_df.ix[patients].dropna()
     return cna_df
 
+
 def get_global_vars(data_path, cancer, patients=None):
-    '''
+    """
     Get compiled DataFrame of global molecular variables from Firehose
     data.  Returns a feature by patient DataFrame with (data-type, variable)
     on the columns and patient barcodes on the index.
-    '''
+    """
     try:
         data_matrix = FH.read_rnaSeq(data_path, cancer, patients)
         U, S, vH = frame_svd(data_matrix)
@@ -244,6 +253,7 @@ def get_global_vars(data_path, cancer, patients=None):
                     keys=['mRNASeq', 'methylation', 'cna', 'mutation'], axis=1)
     gv = gv.dropna(how='all', axis=1)
     return gv
+
 
 def read_data(data_path, cancer, data_type, patients=None, tissue_code='01'):
     fx = {'miRNASeq': FH.read_miRNASeq,

@@ -6,14 +6,14 @@ Created on Jan 28, 2013
 
 import os as os
 import pickle as pickle
-
 from collections import defaultdict
+
 import pandas as pd
 import numpy as np
+from Helpers.Misc import make_path_dump
 
-from Data.ProcessClinical import get_clinical
+from Processing.ProcessClinical import get_clinical
 from Data.Annotations import read_in_pathways
-from Processing.Helpers import make_path_dump
 
 
 def tree():
