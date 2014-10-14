@@ -188,7 +188,8 @@ def initialize_real(cancer_type, report_path, data_type, patients=None,
         create_meta_features = False
     
     data = RealDataset(run, cancer, data_type, patients, drop_pc1,
-                       create_real_features, create_meta_features, filter_down)
+                       create_real_features, create_meta_features,
+                       filter_down)
 
     if save is True:
         data.save()
