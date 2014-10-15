@@ -33,7 +33,7 @@ class Run(object):
         self.data_path = data_path
         self.version = version
         self.result_path = result_path
-        self.report_path = './'
+        self.report_path = result_path
         self.parameters = parameters
         self.dependency_tree = tree()
         self.description = description
@@ -93,7 +93,7 @@ class Cancer(object):
         self.samples = counts[counts > 0]
         self.data_types = np.array(self.samples.index)
         self.run_path = run.report_path
-        self.path = './'
+        self.path = '/'.join([self.run_path, self.name])
     
     def load_clinical(self):
         path = '/'.join([self.path, 'Clinical', 'ClinicalObject.p'])
@@ -145,7 +145,7 @@ class Clinical(object):
         """
         self.cancer = cancer.name
         self.run_path = run.report_path
-        self.path = './'
+        self.path = '/'.join([self.run_path, cancer.name])
         
         tup = get_clinical(cancer.name, run.data_path, patients)
         (self.clinical, self.drugs, self.followup, self.stage,
