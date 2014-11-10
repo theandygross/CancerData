@@ -4,9 +4,11 @@ Created on Jun 23, 2013
 @author: agross
 """
 
+from Stats.Scipy import chi2_cont_test
+
 
 def read_in_pathways(mSigDbFile):
-    '''
+    """
     Reads in mSigDb pathways.
     File format should be that downloaded from website, tsv with format:
     pathway \t gene1 \t gene2 ... geneX \n
@@ -15,7 +17,7 @@ def read_in_pathways(mSigDbFile):
     output:
       geneSets:          dict mapping pathway name to set of genes in the pathway
       geneLookup:        dict mapping genes to the pathways they occur in
-    '''    
+    """
     f = open(mSigDbFile, 'r')
     geneSets = {}
     genes = []
@@ -34,3 +36,31 @@ def read_in_pathways(mSigDbFile):
             geneLookup[gene].add(pathway)
     return geneSets, geneLookup
 
+
+def filter_pathway_hits(hits, gs, cutoff=.00001):
+    """
+    Returns a filtered list of p-values with redundant pathways
+    removed.
+
+    hits:
+        Series of p-values.
+    gs:
+        DataFrame of gene-set asignments encoded as a binary matrix.
+    cutoff:
+        p-value cutoff for overlab between gene-sets
+    """
+    hits = hits.order()
+    l = [hits.index[0]]
+    for gg in hits.index:
+        flag = 0
+        for g2 in l:
+            if gg in l:
+                flag = 1
+                break
+            elif chi2_cont_test(gs[gg], gs[g2])['p'] < cutoff:
+                flag = 1
+                break
+        if flag == 0:
+            l.append(gg)
+    hits_filtered = hits.ix[l]
+    return hits_filtered
