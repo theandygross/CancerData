@@ -184,6 +184,25 @@ def get_gistic(cancer_name, data_path, filter_with_rna=True,
 
 def read_rppa(data_path, cancer, patients=None, tissue_code='01'):
     """
+    Reads in antibody by patient reverse-phase protein array matrix.
+    Use for more recent firehose runs.
+    """
+    files = get_dataset_path(data_path, cancer, 'protein_exp',
+                             'protein_normalization')
+    if files is None:
+        return
+    else:
+        f = files[0]
+    rppa = pd.read_table(f, index_col=0, low_memory=False,
+                         skiprows=[1])
+    rppa = fix_barcode_columns(rppa, tissue_code=tissue_code)
+    return rppa
+
+
+def read_rppa_ann(data_path, cancer, patients=None, tissue_code='01'):
+    """
+    This is a function for reading the old format tagged with
+    "annotated_with_gene".
     Reads in antibody by patient reverse-phase protein array matrix. 
     Index is MultiIndex with ['protien','antibody'] on the levels. 
     """
