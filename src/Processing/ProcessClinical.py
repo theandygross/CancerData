@@ -52,6 +52,8 @@ def format_drugs(br):
         br: clinical DataFrame with patient bar-codes on the columns
     """
     drugs = br.select(lambda s: s.startswith('patient.drugs.drug'))
+    if len(drugs) == 0:
+        return None
 
     ft = pd.MultiIndex.from_tuples  # long Pandas names
     drug_annot = ft(map(lambda s: tuple(s.split('.')[2:4]), drugs.index))
@@ -227,6 +229,7 @@ def get_clinical(cancer, data_path, patients=None, **params):
     f = '{}stddata/{}/Clinical/{}.clin.merged.txt'.format(data_path, cancer,
                                                           cancer)
     tab = pd.read_table(f, index_col=0, low_memory=False)
+    tab.index = tab.index.map(lambda s: s.replace('_', '')) #patch
     tab.columns = tab.ix['patient.bcrpatientbarcode'].map(str.upper)
     tab = tab.T.sort_index().drop_duplicates().T
     
