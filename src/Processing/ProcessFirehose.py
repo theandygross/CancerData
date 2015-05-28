@@ -67,10 +67,16 @@ def clean_file_tree(new_path):
         fp = new_path + '/' + folder + '/'
         if folder.startswith('Merge_'):
             folder = folder[6:]
-            os.rename(fp, new_path + '/' + folder)
-            fp = new_path + '/' + folder        
+            try:
+                os.rename(fp, new_path + '/' + folder)
+            except:
+                print fp
+            fp = new_path + '/' + folder
         if '__' in folder:  # un-flatten directories
-            os.renames(fp, new_path + '/' + '/'.join(folder.split('__')))
+            try:
+                os.renames(fp, new_path + '/' + '/'.join(folder.split('__')))
+            except:
+                print folder
             
     for ll in os.walk(new_path):  # get rid of directory names in filenames
         for f in ll[2]:
@@ -117,15 +123,21 @@ def process_firehose_get(data_path, cancer, date):
         date: date of versioned firehose run in YYYY_MM_DD format.
         cancer: name of cancer to process
     """
-    cancer_dir = '{}/analyses__{}/{}/'.format(data_path, date, cancer)
-    path = cancer_dir + date.replace('_', '') + '/'
-    new_path = '{}/Firehose__{}/analyses/{}'.format(data_path, date, cancer)
-    process_files(path, new_path)
+    try:
+        cancer_dir = '{}/analyses__{}/{}/'.format(data_path, date, cancer)
+        path = cancer_dir + date.replace('_', '') + '/'
+        new_path = '{}/Firehose__{}/analyses/{}'.format(data_path, date, cancer)
+        process_files(path, new_path)
+    except:
+        print '{} analyses failed'.format(cancer)
     
-    cancer_dir = '{}/stddata__{}/{}/'.format(data_path, date, cancer)
-    path = cancer_dir + date.replace('_', '') + '/'
-    new_path = '{}/Firehose__{}/stddata/{}'.format(data_path, date, cancer)
-    process_files(path, new_path)
+    try:
+        cancer_dir = '{}/stddata__{}/{}/'.format(data_path, date, cancer)
+        path = cancer_dir + date.replace('_', '') + '/'
+        new_path = '{}/Firehose__{}/stddata/{}'.format(data_path, date, cancer)
+        process_files(path, new_path)
+    except:
+        print '{} analyses failed'.format(cancer)
     clean_file_tree(new_path)
 
 
@@ -136,7 +148,7 @@ def process_all_cancers(firehose_path, date):
     firehose_path: Path to top level directory where firehose_get was run.
     date: date of versioned firehose run in YYYY_MM_DD format.
     """
-    for cancer in os.listdir('{}/analyses__{}'.format(firehose_path, date)):
+    for cancer in os.listdir('{}/stddata__{}'.format(firehose_path, date)):
         if '.' in cancer:  # random files stuck in the directory
             break
         process_firehose_get(firehose_path, cancer, date)
