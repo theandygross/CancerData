@@ -14,12 +14,14 @@ def read_clinical_data(path, cancer):
     cancer = cancer.lower()
     na_vals = ['[Completed]', '[Not Available]', '[Not Applicable]', 'null']
     pat = pd.read_table(path + 'clinical_patient_{}.txt'.format(cancer),
-                        index_col=0, skiprows=[0, 2], na_values=na_vals)
+                        index_col='bcr_patient_barcode', skiprows=[0, 2],
+                        na_values=na_vals)
     f = pat.dropna(axis=1, how='all')
     for fu in os.listdir(path):
         if 'clinical_follow_up' not in fu:
             continue
-        followup = pd.read_table(path + fu, index_col=0, skiprows=[0, 2],
+        followup = pd.read_table(path + fu, index_col='bcr_patient_barcode',
+                                 skiprows=[0, 2],
                                  na_values=na_vals)
         f = pd.concat([f, followup])
     f.columns = f.columns.map(lambda s: s.replace('_', '').lower())
