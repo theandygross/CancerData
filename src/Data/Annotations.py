@@ -5,6 +5,7 @@ Created on Jun 23, 2013
 """
 
 from Stats.Scipy import chi2_cont_test
+import pandas as pd
 
 
 def read_in_pathways(mSigDbFile):
@@ -31,8 +32,8 @@ def read_in_pathways(mSigDbFile):
     genes = set(genes)
 
     geneLookup = dict([(gene, set()) for gene in genes])
-    for pathway in geneSets: 
-        for gene in geneSets[pathway]: 
+    for pathway in geneSets:
+        for gene in geneSets[pathway]:
             geneLookup[gene].add(pathway)
     return geneSets, geneLookup
 
@@ -64,3 +65,15 @@ def filter_pathway_hits(hits, gs, cutoff=.00001):
             l.append(gg)
     hits_filtered = hits.ix[l]
     return hits_filtered
+
+
+def unstack_geneset_csv(filename):
+    """
+    File should be a stacked binary table of gene set assignments.
+    """
+    s = pd.read_csv(filename, header=None, index_col=[0, 1], squeeze=True)
+    df = s.unstack().T.fillna(0)
+    df.columns.name = 'Gene_Set'
+    df.index.name = 'Gene'
+    return df
+
